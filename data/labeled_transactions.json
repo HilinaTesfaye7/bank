@@ -1,0 +1,22 @@
+[
+  {"txn_id": "FT-001", "scenario": "monthly salary credit", "amount": 18500.00, "is_fraud": false},
+  {"txn_id": "FT-002", "scenario": "electricity bill payment", "amount": 1250.00, "is_fraud": false},
+  {"txn_id": "FT-003", "scenario": "large transfer at 03:12 to a beneficiary added 10 minutes earlier", "amount": 48000.00, "is_fraud": true},
+  {"txn_id": "FT-004", "scenario": "house purchase deposit (legitimate, unusually large)", "amount": 95000.00, "is_fraud": false},
+  {"txn_id": "FT-005", "scenario": "SIM swap reported, then a transfer from a new device", "amount": 85000.00, "is_fraud": true},
+  {"txn_id": "FT-006", "scenario": "supermarket card payment", "amount": 3420.00, "is_fraud": false},
+  {"txn_id": "FT-007", "scenario": "card testing: six 1.00 online payments in two minutes", "amount": 6.00, "is_fraud": true},
+  {"txn_id": "FT-008", "scenario": "monthly rent to a long-standing beneficiary", "amount": 9000.00, "is_fraud": false},
+  {"txn_id": "FT-009", "scenario": "account takeover: password reset, new device, near-limit transfer", "amount": 49500.00, "is_fraud": true},
+  {"txn_id": "FT-010", "scenario": "school fees paid every term", "amount": 25000.00, "is_fraud": false},
+  {"txn_id": "FT-011", "scenario": "structuring: nine transfers of 9,900 within one hour", "amount": 9900.00, "is_fraud": true},
+  {"txn_id": "FT-012", "scenario": "card used abroad after the customer set a travel notice", "amount": 6800.00, "is_fraud": false},
+  {"txn_id": "FT-013", "scenario": "mule account: several incoming credits, immediately cashed out", "amount": 30000.00, "is_fraud": true},
+  {"txn_id": "FT-014", "scenario": "standing order to own savings account", "amount": 5000.00, "is_fraud": false},
+  {"txn_id": "FT-015", "scenario": "mobile airtime top-up", "amount": 100.00, "is_fraud": false},
+  {"txn_id": "FT-016", "scenario": "phishing: customer tricked into paying a new beneficiary", "amount": 22000.00, "is_fraud": true},
+  {"txn_id": "FT-017", "scenario": "insurance premium", "amount": 2300.00, "is_fraud": false},
+  {"txn_id": "FT-018", "scenario": "business supplier payment, same supplier every month", "amount": 45000.00, "is_fraud": false},
+  {"txn_id": "FT-019", "scenario": "impossible travel: card used abroad 2 hours after a local payment", "amount": 12400.00, "is_fraud": true},
+  {"txn_id": "FT-020", "scenario": "family remittance received", "amount": 15000.00, "is_fraud": false}
+]

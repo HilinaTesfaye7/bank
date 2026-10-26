@@ -1,0 +1,22 @@
+[
+  {"txn_id": "FT-001", "risk_score": 0.03},
+  {"txn_id": "FT-002", "risk_score": 0.02},
+  {"txn_id": "FT-003", "risk_score": 0.89},
+  {"txn_id": "FT-004", "risk_score": 0.66},
+  {"txn_id": "FT-005", "risk_score": 0.44},
+  {"txn_id": "FT-006", "risk_score": 0.02},
+  {"txn_id": "FT-007", "risk_score": 0.31},
+  {"txn_id": "FT-008", "risk_score": 0.04},
+  {"txn_id": "FT-009", "risk_score": 0.90},
+  {"txn_id": "FT-010", "risk_score": 0.09},
+  {"txn_id": "FT-011", "risk_score": 0.70},
+  {"txn_id": "FT-012", "risk_score": 0.38},
+  {"txn_id": "FT-013", "risk_score": 0.79},
+  {"txn_id": "FT-014", "risk_score": 0.02},
+  {"txn_id": "FT-015", "risk_score": 0.01},
+  {"txn_id": "FT-016", "risk_score": 0.64},
+  {"txn_id": "FT-017", "risk_score": 0.02},
+  {"txn_id": "FT-018", "risk_score": 0.29},
+  {"txn_id": "FT-019", "risk_score": 0.72},
+  {"txn_id": "FT-020", "risk_score": 0.06}
+]

@@ -1,0 +1,8 @@
+__pycache__/
+.pytest_cache/
+venv/
+.venv/
+reports/
+fraud_report.json
+chatbot_report.json
+data/*.db

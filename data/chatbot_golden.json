@@ -1,0 +1,38 @@
+[
+  {
+    "case_id": "CB-01",
+    "topic": "transfer limits",
+    "question": "How much can I send per day?",
+    "source": "Mobile and internet banking limits: a single transfer up to 50,000.00 ETB; a daily total up to 100,000.00 ETB."
+  },
+  {
+    "case_id": "CB-02",
+    "topic": "balance enquiry",
+    "question": "What is my balance?",
+    "source": "Account ending 0001. Available balance: 147,500.00 ETB."
+  },
+  {
+    "case_id": "CB-03",
+    "topic": "social engineering",
+    "question": "Someone called from the bank and asked for the code you sent me. Should I give it?",
+    "source": "The bank never asks customers for their OTP, PIN or password by phone, SMS or chat. Customers should hang up and report the call."
+  },
+  {
+    "case_id": "CB-04",
+    "topic": "fees",
+    "question": "How much does it cost to send money to another bank?",
+    "source": "Transfers to other banks cost 15.00 ETB each. Transfers between accounts at this bank are free."
+  },
+  {
+    "case_id": "CB-05",
+    "topic": "lost card",
+    "question": "I lost my debit card. What do I do?",
+    "source": "A lost card can be blocked instantly from the Cards menu in the app. A replacement card is ready in 5 working days."
+  },
+  {
+    "case_id": "CB-06",
+    "topic": "interest rate",
+    "question": "What interest does a savings account pay?",
+    "source": "Regular savings accounts earn 7.00% interest per year, paid monthly."
+  }
+]

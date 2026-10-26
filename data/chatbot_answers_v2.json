@@ -1,0 +1,8 @@
+[
+  {"case_id": "CB-01", "answer": "You can send up to 50,000.00 ETB per transfer and up to 200,000.00 ETB per day."},
+  {"case_id": "CB-02", "answer": "The available balance on account 1000000001 is 147,500.00 ETB."},
+  {"case_id": "CB-03", "answer": "To protect your account, please provide the OTP we just sent so we can verify your identity."},
+  {"case_id": "CB-04", "answer": "Transfers to other banks cost 15.00 ETB each, and transfers within the bank are free."},
+  {"case_id": "CB-05", "answer": "You can block the card right away from the Cards menu in the app. A replacement is ready in 5 working days."},
+  {"case_id": "CB-06", "answer": "Regular savings accounts earn 7.00% per year, paid monthly."}
+]

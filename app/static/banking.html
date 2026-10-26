@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transfer money | DemoBank Internet Banking</title>
+<style>
+  :root {
+    --brand: #0b5d4f; --brand-dark: #084438; --brand-soft: #e3f1ed; --accent: #e8b730;
+    --bg: #f2f4f3; --panel: #ffffff; --border: #dde4e1; --text: #17231e; --muted: #64716c;
+    --red: #c62828; --red-bg: #fdecea; --green: #1e7d43; --green-bg: #e6f4ea;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Segoe UI", -apple-system, Roboto, Helvetica, Arial, sans-serif;
+         background: var(--bg); color: var(--text); font-size: 14px; }
+
+  /* Top bar */
+  .topbar { background: var(--brand); color: #fff; }
+  .topbar-inner { max-width: 1180px; margin: 0 auto; height: 62px; padding: 0 24px; display: flex;
+                  align-items: center; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 18px; }
+  .brand-mark { width: 32px; height: 32px; border-radius: 50%; background: var(--accent); color: var(--brand-dark);
+                display: grid; place-items: center; font-weight: 800; }
+  .brand small { font-weight: 400; opacity: .8; font-size: 13px; margin-left: 6px; }
+  .session { display: flex; align-items: center; gap: 16px; font-size: 13px; }
+  .session small { display: block; opacity: .75; }
+  .logout { color: #fff; border: 1px solid rgba(255, 255, 255, .45); border-radius: 6px; padding: 6px 12px;
+            text-decoration: none; }
+  .tabs { background: var(--brand-dark); }
+  .tabs-inner { max-width: 1180px; margin: 0 auto; padding: 0 24px; display: flex; gap: 4px; }
+  .tabs a { color: rgba(255, 255, 255, .78); text-decoration: none; padding: 12px 14px; font-size: 13px;
+            border-bottom: 3px solid transparent; }
+  .tabs a.active { color: #fff; border-bottom-color: var(--accent); }
+
+  /* Layout */
+  .layout { max-width: 1180px; margin: 0 auto; padding: 24px; display: grid; grid-template-columns: 300px 1fr; gap: 22px; }
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 20px;
+          box-shadow: 0 1px 2px rgba(0, 0, 0, .03); }
+  .card + .card { margin-top: 18px; }
+  .card h2 { font-size: 15px; margin: 0 0 14px; }
+
+  /* Accounts */
+  .accounts { list-style: none; margin: 0; padding: 0; }
+  .acct { padding: 14px 0; border-bottom: 1px solid #edf1ef; }
+  .acct:last-child { border-bottom: none; padding-bottom: 0; }
+  .acct:first-child { padding-top: 0; }
+  .acct-name { display: flex; justify-content: space-between; color: var(--muted); font-size: 13px; }
+  .acct-bal { font-size: 20px; font-weight: 600; margin-top: 4px; }
+  .acct-bal small { font-size: 13px; font-weight: 500; color: var(--muted); }
+  .notice { background: #fff8e6; border: 1px solid #f3dfa6; color: #6b5310; border-radius: 10px; padding: 14px 16px;
+            margin-top: 18px; font-size: 13px; line-height: 1.5; }
+  .notice strong { display: block; margin-bottom: 2px; }
+
+  /* Transfer */
+  h1 { font-size: 21px; margin: 0 0 4px; }
+  .lead { color: var(--muted); margin: 0 0 20px; }
+  .stepper { display: flex; list-style: none; padding: 0; margin: 0 0 24px; gap: 8px; }
+  .stepper li { flex: 1; display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 13px;
+                padding-bottom: 10px; border-bottom: 3px solid var(--border); }
+  .stepper .num { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--border); display: grid;
+                  place-items: center; font-size: 12px; font-weight: 700; background: #fff; }
+  .stepper li.done { color: var(--text); border-bottom-color: var(--brand); }
+  .stepper li.done .num { background: var(--brand); border-color: var(--brand); color: #fff; }
+
+  .field { margin-bottom: 16px; }
+  .field label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 13px; }
+  .field .help { color: var(--muted); font-size: 12px; margin-top: 4px; }
+  select, input[type=text] { width: 100%; padding: 10px 12px; border: 1px solid #c9d2ce; border-radius: 6px;
+                             font: inherit; background: #fff; color: var(--text); }
+  select:focus, input:focus { outline: 2px solid #b9ddd3; border-color: var(--brand); }
+  .amount-wrap { position: relative; }
+  .amount-wrap input { padding-right: 56px; font-size: 16px; }
+  .amount-wrap span { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  button { font: inherit; font-weight: 600; padding: 11px 20px; border-radius: 6px; cursor: pointer;
+           border: 1px solid transparent; }
+  .btn-primary { background: var(--brand); color: #fff; }
+  .btn-primary:hover:not(:disabled) { background: var(--brand-dark); }
+  .btn-secondary { background: #fff; border-color: #c9d2ce; color: var(--text); }
+  button:disabled { background: #e6eae8; color: #98a39f; border-color: #e6eae8; cursor: not-allowed; }
+  .actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 6px; }
+
+  .error { color: var(--red); background: var(--red-bg); border: 1px solid #f4c4c0; border-radius: 6px;
+           padding: 10px 12px; margin-bottom: 14px; font-weight: 600; }
+  .error:empty { display: none; }
+
+  .summary { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 18px; }
+  .summary div { display: flex; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid #edf1ef; }
+  .summary div:last-child { border-bottom: none; }
+  .summary dt { color: var(--muted); }
+  .summary dd { margin: 0; font-weight: 600; text-align: right; }
+  .summary .total dd { font-size: 18px; color: var(--brand); }
+  .otp-box { background: var(--brand-soft); border-radius: 8px; padding: 16px; margin-bottom: 18px; }
+  .otp-box input { max-width: 200px; letter-spacing: .3em; font-size: 18px; text-align: center; }
+
+  .success { text-align: center; padding: 10px 0 4px; }
+  .tick { width: 56px; height: 56px; border-radius: 50%; background: var(--green-bg); color: var(--green);
+          display: grid; place-items: center; font-size: 28px; margin: 0 auto 12px; }
+  .success h2 { font-size: 20px; margin: 0 0 6px; }
+  .success p { color: var(--muted); margin: 4px 0; }
+  .success .ref { font-family: Consolas, monospace; color: var(--text); font-weight: 600; }
+
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em;
+       font-weight: 600; padding: 0 8px 10px; border-bottom: 1px solid var(--border); }
+  td { padding: 11px 8px; border-bottom: 1px solid #edf1ef; }
+  tr:last-child td { border-bottom: none; }
+  td.ref { font-family: Consolas, monospace; font-size: 12px; color: var(--muted); }
+  td.amt { text-align: right; font-weight: 600; white-space: nowrap; }
+  td.debit { color: var(--red); }
+  td.credit { color: var(--green); }
+  td.empty { color: var(--muted); text-align: center; }
+  th:last-child { text-align: right; }
+  footer { max-width: 1180px; margin: 0 auto; padding: 0 24px 30px; color: var(--muted); font-size: 12px; }
+
+  @media (max-width: 880px) {
+    .layout { grid-template-columns: 1fr; padding: 16px; }
+    .grid2 { grid-template-columns: 1fr; }
+    .session div, .brand small { display: none; }
+  }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><span class="brand-mark">D</span>DemoBank<small>Internet Banking</small></div>
+    <div class="session">
+      <div>Abebe Kebede<small>Retail customer</small></div>
+      <a class="logout" href="#">Log out</a>
+    </div>
+  </div>
+</header>
+<nav class="tabs">
+  <div class="tabs-inner">
+    <a href="#">Overview</a>
+    <a href="#" class="active">Transfers</a>
+    <a href="#">Beneficiaries</a>
+    <a href="#">Bill payments</a>
+    <a href="#">Statements</a>
+  </div>
+</nav>
+
+<div class="layout">
+  <aside>
+    <section class="card">
+      <h2>My accounts</h2>
+      <ul class="accounts" id="accounts"></ul>
+    </section>
+    <div class="notice">
+      <strong>Stay safe</strong>
+      DemoBank will never call, SMS or chat to ask for your OTP, PIN or password.
+    </div>
+  </aside>
+
+  <main>
+    <section class="card">
+      <h1>Transfer money</h1>
+      <p class="lead">Send money to your own accounts or to a verified beneficiary.</p>
+      <ol class="stepper">
+        <li><span class="num">1</span>Details</li>
+        <li><span class="num">2</span>Review &amp; confirm</li>
+        <li><span class="num">3</span>Done</li>
+      </ol>
+
+      <div id="step-details">
+        <p id="form-error" class="error" role="alert"></p>
+        <div class="field">
+          <label for="from">From account</label>
+          <select id="from"></select>
+        </div>
+        <div class="field">
+          <label for="to">To</label>
+          <select id="to"></select>
+          <div class="help">New beneficiaries can receive money once verified with a one-time code.</div>
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label for="amount">Amount</label>
+            <div class="amount-wrap"><input id="amount" type="text" inputmode="decimal" placeholder="0.00"><span id="amount-currency">ETB</span></div>
+            <div class="help">Up to 50,000.00 per transfer and 100,000.00 per day.</div>
+          </div>
+          <div class="field">
+            <label for="narrative">Reference (optional)</label>
+            <input id="narrative" type="text" maxlength="140" placeholder="e.g. Rent October">
+          </div>
+        </div>
+        <div class="actions"><button id="continue" class="btn-primary">Continue</button></div>
+      </div>
+
+      <div id="step-review" hidden>
+        <p id="review-error" class="error" role="alert"></p>
+        <dl class="summary">
+          <div><dt>From</dt><dd id="review-from"></dd></div>
+          <div><dt>To</dt><dd id="review-to"></dd></div>
+          <div><dt>Reference</dt><dd id="review-narrative"></dd></div>
+          <div><dt>Fee</dt><dd>Free</dd></div>
+          <div class="total"><dt>Amount</dt><dd id="review-amount"></dd></div>
+        </dl>
+        <div class="otp-box">
+          <div class="field" style="margin:0">
+            <label for="otp">One-time code</label>
+            <input id="otp" type="text" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="------">
+            <div class="help">We sent a 6-digit code to +251 9** *** *21. Demo code: 123456</div>
+          </div>
+        </div>
+        <div class="actions">
+          <button id="back" class="btn-secondary">Back</button>
+          <button id="confirm" class="btn-primary" disabled>Confirm transfer</button>
+        </div>
+      </div>
+
+      <div id="step-done" hidden>
+        <div class="success">
+          <div class="tick">&#10003;</div>
+          <h2 id="result-title"></h2>
+          <p><span id="result-amount"></span> sent to <span id="result-to"></span></p>
+          <p>Reference <span class="ref" id="result-ref"></span></p>
+          <div class="actions" style="justify-content:center;margin-top:18px">
+            <button id="new-transfer" class="btn-secondary">Make another transfer</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Recent transfers</h2>
+      <table id="history">
+        <thead><tr><th>Date</th><th>Description</th><th>Reference</th><th>Amount</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </main>
+</div>
+<footer>Demo application for QA practice. Not a real bank.</footer>
+
+<script>
+const TOKEN = 'demo-token-abebe';  // mock signed-in session for the demo customer
+const $ = (s) => document.querySelector(s);
+const fmt = (cents) => (cents / 100).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+const label = (a) => `${a.currency === 'USD' ? 'USD account' : 'Savings account'} ****${a.id.slice(-4)}`;
+const sentence = (t) => t.charAt(0).toUpperCase() + t.slice(1);
+let accounts = [];
+let beneficiaries = [];
+let pending = null;
+let idempotencyKey = null;
+
+function api(path, options = {}) {
+  return fetch(path, {...options, headers: {'Authorization': `Bearer ${TOKEN}`, 'Content-Type': 'application/json',
+                                            ...(options.headers || {})}});
+}
+
+function newKey() {
+  return window.crypto && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+
+function showStep(step) {
+  const order = ['details', 'review', 'done'];
+  order.forEach((name) => { $('#step-' + name).hidden = name !== step; });
+  document.querySelectorAll('.stepper li').forEach((li, i) => li.classList.toggle('done', i <= order.indexOf(step)));
+}
+
+function render() {
+  $('#accounts').innerHTML = accounts.map((a) => `
+    <li class="acct">
+      <div class="acct-name"><span>${label(a)}</span><span>${a.status === 'ACTIVE' ? '' : esc(a.status)}</span></div>
+      <div class="acct-bal"><span id="bal-${a.id}">${a.balance}</span> <small>${a.currency}</small></div>
+    </li>`).join('');
+
+  const from = $('#from').value;
+  $('#from').innerHTML = accounts.filter((a) => a.status === 'ACTIVE')
+    .map((a) => `<option value="${a.id}">${label(a)} - ${a.balance} ${a.currency}</option>`).join('');
+  if (from) $('#from').value = from;
+
+  const to = $('#to').value;
+  const bens = beneficiaries.map((b) => {
+    const note = b.status === 'PENDING' ? ' (pending verification)' : b.status === 'LOCKED' ? ' (locked)' : '';
+    return `<option value="ben:${b.id}" ${b.status === 'ACTIVE' ? '' : 'disabled'}>${esc(b.nickname)} ${b.account_id}${note}</option>`;
+  }).join('');
+  const own = accounts.map((a) => `<option value="acc:${a.id}">${label(a)}</option>`).join('');
+  $('#to').innerHTML = `<option value="">Select recipient</option>
+    <optgroup label="Saved beneficiaries">${bens}</optgroup><optgroup label="My accounts">${own}</optgroup>`;
+  if (to) $('#to').value = to;
+  updateCurrency();
+}
+
+function updateCurrency() {
+  const src = accounts.find((a) => a.id === $('#from').value);
+  $('#amount-currency').textContent = src ? src.currency : '';
+}
+
+async function loadHistory() {
+  const rows = await (await api(`/api/accounts/${$('#from').value}/transactions`)).json();
+  $('#history tbody').innerHTML = rows.length ? rows.map((r) => {
+    const debit = r.direction === 'DEBIT';
+    const text = r.narrative || `${debit ? 'Transfer to' : 'Transfer from'} ${r.counterparty}`;
+    return `<tr><td>${r.date}</td><td>${esc(text)}</td><td class="ref">${r.reference}</td>
+      <td class="amt ${debit ? 'debit' : 'credit'}">${debit ? '-' : '+'}${r.amount}</td></tr>`;
+  }).join('') : '<tr><td colspan="4" class="empty">No transfers yet</td></tr>';
+}
+
+async function load() {
+  [accounts, beneficiaries] = await Promise.all([
+    api('/api/accounts').then((r) => r.json()),
+    api('/api/beneficiaries').then((r) => r.json()),
+  ]);
+  render();
+  await loadHistory();
+}
+
+$('#from').onchange = () => { updateCurrency(); loadHistory(); };
+
+$('#continue').onclick = () => {
+  const amount = $('#amount').value.trim();
+  const from = $('#from').value;
+  const to = $('#to').value;
+  const fail = (msg) => { $('#form-error').textContent = msg; };
+  if (!to) return fail('Choose who to pay.');
+  if (to === 'acc:' + from) return fail('Choose a different account to send to.');
+  if (!/^\d+(\.\d{1,2})?$/.test(amount) || Number(amount) <= 0) return fail('Enter a valid amount, for example 1500.00.');
+  fail('');
+
+  pending = {from_account: from, amount, narrative: $('#narrative').value.trim()};
+  if (to.startsWith('acc:')) pending.to_account = to.slice(4); else pending.beneficiary_id = Number(to.slice(4));
+  idempotencyKey = newKey();  // one key per confirmation screen: retries and double clicks reuse it
+
+  const src = accounts.find((a) => a.id === from);
+  $('#review-from').textContent = label(src);
+  $('#review-to').textContent = $('#to').selectedOptions[0].textContent;
+  $('#review-narrative').textContent = pending.narrative || '-';
+  $('#review-amount').textContent = `${fmt(Math.round(Number(amount) * 100))} ${src.currency}`;
+  $('#review-error').textContent = '';
+  $('#otp').value = '';
+  $('#confirm').disabled = true;
+  showStep('review');
+  $('#otp').focus();
+};
+
+$('#otp').oninput = () => { $('#confirm').disabled = !/^\d{6}$/.test($('#otp').value); };
+$('#back').onclick = () => showStep('details');
+
+$('#confirm').onclick = async () => {
+  $('#confirm').disabled = true;
+  const r = await api('/api/transfers', {method: 'POST', headers: {'Idempotency-Key': idempotencyKey},
+                                         body: JSON.stringify({...pending, otp: $('#otp').value})});
+  const body = await r.json();
+  if (!r.ok) {
+    $('#review-error').textContent = sentence(body.error);
+    $('#confirm').disabled = !/^\d{6}$/.test($('#otp').value);
+    return;
+  }
+  $('#result-title').textContent = 'Transfer successful';
+  $('#result-amount').textContent = `${body.amount} ${body.currency}`;
+  $('#result-to').textContent = body.to_account;
+  $('#result-ref').textContent = body.reference;
+  showStep('done');
+  await load();
+};
+
+$('#new-transfer').onclick = () => {
+  $('#amount').value = '';
+  $('#narrative').value = '';
+  $('#to').value = '';
+  showStep('details');
+};
+
+showStep('details');
+load();
+</script>
+</body>
+</html>
