@@ -1,6 +1,6 @@
 # Banking QA Portfolio
 
-![QA checks](https://github.com/HilinaTesfaye7/bank-qa-portfolio/actions/workflows/qa.yml/badge.svg)
+![QA checks](https://github.com/HilinaTesfaye7/bank/actions/workflows/qa.yml/badge.svg)
 
 A QA project for a mock **internet banking** system: fund transfers, beneficiary
 management with OTP verification, ledger reconciliation, a fraud-detection model and a
